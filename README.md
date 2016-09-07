@@ -7,13 +7,11 @@ A *factory* implements the `Factory` interface. In it's simplest form, it's just
 
 ```go
 func myFactory(ptr interface{}) bool {
-	counter++
-
 	switch x := ptr.(type) {
 	case *int:
-		*x = counter
+		*x = 1001
 	case *string:
-		*x = fmt.Sprintf("Aloha Call-%04d!", counter)
+		*x = `injected string`
 	case *Trait:
 		buffer := Trait{}
 		*x = buffer
@@ -22,13 +20,14 @@ func myFactory(ptr interface{}) bool {
 		*x = buffer
 	case *map[string]interface{}:
 		*x = make(map[string]interface{})
-		(*x)[`asset`] = `ready-` + fmt.Sprintf("%04d", counter)
+		(*x)[`asset`] = `another injected string`
 	case *SI:
-		v := SIO{`SIO-` + fmt.Sprintf("%04d", counter)}
+		v := SIO{`yet another injected string`}
 		*x = &v
 	case *[]int:
 		*x = []int{1, 2, 3}
 	default:
+                // this factory does not fill pointers of this type
 		return false
 	}
 
@@ -53,9 +52,9 @@ Fields that are tagged with `inject:"+"` will get filled with proper value from 
 
 ```go
 type Sample struct {
-	Trait `inject:"*"`
+	Trait `inject:"*"`      // inject field, and all down the data tree  
 
-	N  int    `inject:"+"`
+	N  int    `inject:"+"`  // inject field
 	S  string `inject:"+"`
 	D  Data   `inject:"*"`
 	NL []int  `inject:"+"`
