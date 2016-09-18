@@ -27,6 +27,35 @@ sset:ready-0015] DataPtr:{Str:Aloha Call-0017! Num:18 NumList:[1 2 3]} SI:{Val:S
 	}
 }
 
+func TestInvokeSample(t *testing.T) {
+	currentTest = t
+	defer func() { currentTest = nil }()
+
+	dj := NewInjector(FactoryFunc(genericFactory))
+	dj.Invoke(sample)
+}
+
+var currentTest *testing.T
+
+func sample(data map[string]interface{}, numbers []int) {
+	if data == nil || numbers == nil {
+		currentTest.Error(`inputs are nil`)
+		currentTest.Fail()
+	}
+
+	if len(numbers) != 3 || numbers[2] != 3 {
+		currentTest.Fail()
+	}
+
+	_, ok := data[`asset`]
+	if !ok {
+		currentTest.Fail()
+	}
+}
+
+//-----------------------------------------------------------------------------
+// sample factory
+
 var counter int
 
 func genericFactory(ptr interface{}) bool {

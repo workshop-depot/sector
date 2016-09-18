@@ -73,10 +73,34 @@ func (x *injector) Inject(ptr interface{}) {
 	}
 }
 
+func (x *injector) Invoke(f interface{}) ([]reflect.Value, error) {
+	t := reflect.TypeOf(f)
+
+	var input = make([]reflect.Value, t.NumIn())
+	for i := 0; i < t.NumIn(); i++ {
+		argType := t.In(i)
+		var v interface{}
+
+		back := reflect.New(argType)
+		v = back.Interface()
+		x.fac.Fill(v)
+
+		if argType.Kind() == reflect.Ptr {
+			input[i] = reflect.ValueOf(v)
+		} else {
+			input[i] = reflect.ValueOf(v).Elem()
+		}
+	}
+
+	return reflect.ValueOf(f).Call(input), nil
+}
+
 //-----------------------------------------------------------------------------
 
 // Injector /
 type Injector interface {
 	// Inject , must accept only pointer
 	Inject(interface{})
+	// Invoke accepts a function
+	Invoke(interface{}) ([]reflect.Value, error)
 }

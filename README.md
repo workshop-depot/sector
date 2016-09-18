@@ -52,7 +52,7 @@ Fields that are tagged with `inject:"+"` will get filled with proper value from 
 
 ```go
 type Sample struct {
-	Trait `inject:"*"`      // inject field, and all down the data tree  
+	Trait `inject:"*"`      // inject field, recursively, all down the data tree  
 
 	N  int    `inject:"+"`  // inject field
 	S  string `inject:"+"`
@@ -65,3 +65,4 @@ type Sample struct {
 	SI SI `inject:"+"`
 }
 ```
+It is also possible to inject arguments of a function using the `Invoke` method.
