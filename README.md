@@ -1,4 +1,7 @@
 # sector
+
+[![License MIT](https://img.shields.io/badge/License-MIT-blue.svg)](http://opensource.org/licenses/MIT) [![GoDoc](https://godoc.org/github.com/dc0d/sector?status.svg)](http://godoc.org/github.com/dc0d/sector) [![Go Report Card](https://goreportcard.com/badge/github.com/dc0d/sector)](https://goreportcard.com/report/github.com/dc0d/sector) [![Build Status](https://travis-ci.org/dc0d/sector.svg?branch=master)](http://travis-ci.org/dc0d/sector) [![codecov](https://codecov.io/gh/dc0d/sector/branch/master/graph/badge.svg)](https://codecov.io/gh/dc0d/sector)
+
 *sector* - for Simple Injector - provides a Dependency Injection mechanism for Go.
 
 Put it simply, _sector_ fills pointers with values come from _factories_. So we have the *factory* - the constructor (role) - and the *injector*.
